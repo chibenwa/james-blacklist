@@ -29,8 +29,9 @@
 
     <modules>
         <module>blacklist-api</module>
-        <module>blacklist-memory</module>
         <module>blacklist-mailet</module>
+        <module>blacklist-memory</module>
+        <module>blacklist-smtp</module>
         <module>blacklist-webadmin</module>
     </modules>
 

@@ -17,35 +17,44 @@
  * under the License.                                           *
  ****************************************************************/
 
-package com.linagora.james.blacklist.matcher;
-
-import java.util.Collection;
+package com.linagora.james.blacklist.smtp;
 
 import javax.inject.Inject;
 
+import org.apache.commons.configuration2.Configuration;
 import org.apache.james.core.Domain;
 import org.apache.james.core.MailAddress;
 import org.apache.james.core.MaybeSender;
-import org.apache.mailet.Mail;
-import org.apache.mailet.base.GenericMatcher;
+import org.apache.james.protocols.smtp.SMTPSession;
+import org.apache.james.protocols.smtp.hook.HookResult;
+import org.apache.james.protocols.smtp.hook.RcptHook;
 
-import com.github.steveash.guavate.Guavate;
 import com.linagora.james.blacklist.api.PerDomainAddressBlackList;
 
-public class NotInBlackList extends GenericMatcher {
+public class NotInBlackListHook implements RcptHook {
     private final PerDomainAddressBlackList blackList;
 
     @Inject
-    public NotInBlackList(PerDomainAddressBlackList blackList) {
+    public NotInBlackListHook(PerDomainAddressBlackList blackList) {
         this.blackList = blackList;
     }
 
     @Override
-    public Collection<MailAddress> match(Mail mail) {
-        return mail.getRecipients()
-            .stream()
-            .filter(recipient -> !isSenderBlackListed(mail.getMaybeSender(), recipient))
-            .collect(Guavate.toImmutableList());
+    public void init(Configuration config) {
+
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public HookResult doRcpt(SMTPSession session, MaybeSender sender, MailAddress rcpt) {
+        if (isSenderBlackListed(sender, rcpt)) {
+            return HookResult.DENY;
+        }
+        return HookResult.DECLINED;
     }
 
     private Boolean isSenderBlackListed(MaybeSender maybeSender, MailAddress recipient) {
