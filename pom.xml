@@ -33,6 +33,7 @@
         <module>blacklist-memory</module>
         <module>blacklist-smtp</module>
         <module>blacklist-webadmin</module>
+        <module>blacklist-integration</module>
     </modules>
 
     <properties>
