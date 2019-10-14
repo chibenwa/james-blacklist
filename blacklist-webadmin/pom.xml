@@ -18,9 +18,34 @@
             <artifactId>blacklist-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>blacklist-memory</artifactId>
+            <scope>test</scope>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.james</groupId>
             <artifactId>james-server-webadmin-core</artifactId>
             <version>${james.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>james-server-webadmin-core</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <version>${james.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>testing-base</artifactId>
+            <version>${james.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -33,12 +33,13 @@ import com.linagora.james.blacklist.api.PerDomainAddressBlackList;
 import spark.Service;
 
 public class BlackListRoutes implements Routes {
-    public static final String BASE_PATH = "/backList";
+    private static final String BASE_PATH = "/backList";
+
     private final PerDomainAddressBlackList blackList;
     private JsonTransformer jsonTransformer;
 
     @Inject
-    public BlackListRoutes(PerDomainAddressBlackList blackList) {
+    BlackListRoutes(PerDomainAddressBlackList blackList) {
         this.blackList = blackList;
         this.jsonTransformer = new JsonTransformer();
     }
@@ -66,14 +67,14 @@ public class BlackListRoutes implements Routes {
 
         service.put(getBasePath() + "/:domain/:maddress", (req, res) -> {
             Domain domain = Domain.of(req.params("domain"));
-            MailAddress address = new MailAddress("address");
+            MailAddress address = new MailAddress(req.params("maddress"));
             blackList.add(domain, address);
             return Responses.returnNoContent(res);
         }, jsonTransformer);
 
         service.delete(getBasePath() + "/:domain/:maddress", (req, res) -> {
             Domain domain = Domain.of(req.params("domain"));
-            MailAddress address = new MailAddress("address");
+            MailAddress address = new MailAddress(req.params("maddress"));
             blackList.remove(domain, address);
             return Responses.returnNoContent(res);
         }, jsonTransformer);
