@@ -17,6 +17,12 @@
             <artifactId>blacklist-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>blacklist-memory</artifactId>
+            <scope>test</scope>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.james</groupId>
             <artifactId>apache-mailet-api</artifactId>
             <version>${james.version}</version>
@@ -25,6 +31,18 @@
             <groupId>org.apache.james</groupId>
             <artifactId>apache-mailet-base</artifactId>
             <version>${james.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>apache-mailet-test</artifactId>
+            <version>${james.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>testing-base</artifactId>
+            <version>${james.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

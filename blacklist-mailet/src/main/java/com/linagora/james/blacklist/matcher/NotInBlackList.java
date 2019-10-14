@@ -36,7 +36,7 @@ public class NotInBlackList extends GenericMatcher {
     private final PerDomainAddressBlackList blackList;
 
     @Inject
-    public NotInBlackList(PerDomainAddressBlackList blackList) {
+    NotInBlackList(PerDomainAddressBlackList blackList) {
         this.blackList = blackList;
     }
 
@@ -52,7 +52,7 @@ public class NotInBlackList extends GenericMatcher {
         Domain domain = recipient.getDomain();
         return maybeSender.asOptional()
             .map(sender -> isBlackListed(domain, sender))
-            .orElse(true);
+            .orElse(false);
     }
 
     private boolean isBlackListed(Domain domain, MailAddress sender) {
