@@ -37,7 +37,6 @@ import org.apache.james.utils.MailRepositoryProbeImpl;
 import org.apache.james.utils.SMTPMessageSender;
 import org.apache.james.utils.WebAdminGuiceProbe;
 import org.apache.james.webadmin.RandomPortSupplier;
-import org.apache.james.webadmin.Routes;
 import org.apache.james.webadmin.WebAdminConfiguration;
 import org.apache.james.webadmin.WebAdminUtils;
 import org.awaitility.Awaitility;
@@ -45,11 +44,9 @@ import org.awaitility.Duration;
 import org.awaitility.core.ConditionFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import com.google.inject.multibindings.Multibinder;
 import com.linagora.james.blacklist.webadmin.BlackListRoutes;
 
 import io.restassured.RestAssured;
@@ -59,7 +56,7 @@ class IntegrationTest {
     private static final String LOCALHOST_IP = "127.0.0.1";
     private static final int LIMIT_TO_10_MESSAGES = 10;
     private static final String DOMAIN_TLD = "domain.tld";
-    private static final String SENDER = "sendar@any.com";
+    private static final String SENDER = "sender@any.com";
     private static final String USER = "bob@" + DOMAIN_TLD;
     private static final String PASS = "pass";
     private static Duration slowPacedPollInterval = ONE_HUNDRED_MILLISECONDS;
@@ -86,7 +83,7 @@ class IntegrationTest {
                     .corsDisabled()
                     .host("127.0.0.1")
                     .port(new RandomPortSupplier())
-                   /* todo add custom route */
+                    .additionalRoute(BlackListRoutes.class.getCanonicalName())
                     .build())))
         .build();
 
@@ -105,14 +102,14 @@ class IntegrationTest {
         messageSender.close();
     }
 
-    @Disabled("Not yet routes binding")
     @Test
     void blacklistShouldWork(GuiceJamesServer server) throws Exception {
+        with()
+            .put("/backList/" + DOMAIN_TLD + "/" + SENDER)
+            .prettyPeek();
+
         messageSender.connect(LOCALHOST_IP, server.getProbe(SmtpGuiceProbe.class).getSmtpPort())
             .sendMessage(SENDER, USER);
-
-        with()
-            .put("/blackList/" + DOMAIN_TLD + "/" + SENDER);
 
         awaitAtMostOneMinute.until(() -> server.getProbe(MailRepositoryProbeImpl.class).getRepositoryMailCount(ERROR_REPOSITORY) == 1);
     }
