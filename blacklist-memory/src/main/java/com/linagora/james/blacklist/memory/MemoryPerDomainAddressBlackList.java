@@ -21,31 +21,39 @@ package com.linagora.james.blacklist.memory;
 
 import java.util.List;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.james.core.Domain;
 import org.apache.james.core.MailAddress;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import com.linagora.james.blacklist.api.PerDomainAddressBlackList;
 
-// todo ACEU step 1
 public class MemoryPerDomainAddressBlackList implements PerDomainAddressBlackList {
+    private final Multimap<Domain, MailAddress> map;
+
+    public MemoryPerDomainAddressBlackList() {
+        this.map = Multimaps.synchronizedSetMultimap(HashMultimap.create());
+    }
+
     @Override
     public void add(Domain domain, MailAddress address) {
-        throw new NotImplementedException("ACEU 19 step 1");
+        map.put(domain, address);
     }
 
     @Override
     public void remove(Domain domain, MailAddress address) {
-        throw new NotImplementedException("ACEU 19 step 1");
+        map.remove(domain, address);
     }
 
     @Override
     public void clear(Domain domain) {
-        throw new NotImplementedException("ACEU 19 step 1");
+        map.removeAll(domain);
     }
 
     @Override
     public List<MailAddress> list(Domain domain) {
-        throw new NotImplementedException("ACEU 19 step 1");
+        return ImmutableList.copyOf(map.get(domain));
     }
 }
