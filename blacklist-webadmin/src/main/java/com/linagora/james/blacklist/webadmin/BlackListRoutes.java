@@ -33,7 +33,7 @@ import com.linagora.james.blacklist.api.PerDomainAddressBlackList;
 import spark.Service;
 
 public class BlackListRoutes implements Routes {
-    private static final String BASE_PATH = "/backList";
+    private static final String BASE_PATH = "/blacklist";
 
     private final PerDomainAddressBlackList blackList;
     private final JsonTransformer jsonTransformer;
