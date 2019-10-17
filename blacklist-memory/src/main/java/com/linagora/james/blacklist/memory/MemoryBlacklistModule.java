@@ -26,7 +26,6 @@ import com.linagora.james.blacklist.api.PerDomainAddressBlackList;
 public class MemoryBlacklistModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind(MemoryPerDomainAddressBlackList.class).in(Scopes.SINGLETON);
-        bind(PerDomainAddressBlackList.class).to(MemoryPerDomainAddressBlackList.class);
+        // todo ACEU19 step 2
     }
 }
