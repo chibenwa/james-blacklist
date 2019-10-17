@@ -44,6 +44,7 @@ import org.awaitility.Duration;
 import org.awaitility.core.ConditionFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -102,6 +103,7 @@ class IntegrationTest {
         messageSender.close();
     }
 
+    @Disabled("Not stable")
     @Test
     void blacklistShouldWork(GuiceJamesServer server) throws Exception {
         with()
