@@ -21,15 +21,42 @@ package com.linagora.james.blacklist.matcher;
 
 import java.util.Collection;
 
-import org.apache.commons.lang3.NotImplementedException;
+import javax.inject.Inject;
+
+import org.apache.james.core.Domain;
 import org.apache.james.core.MailAddress;
+import org.apache.james.core.MaybeSender;
 import org.apache.mailet.Mail;
 import org.apache.mailet.base.GenericMatcher;
 
+import com.github.steveash.guavate.Guavate;
+import com.linagora.james.blacklist.api.PerDomainAddressBlackList;
+
 public class NotInBlackList extends GenericMatcher {
+    private final PerDomainAddressBlackList blackList;
+
+    @Inject
+    NotInBlackList(PerDomainAddressBlackList blackList) {
+        this.blackList = blackList;
+    }
+
     @Override
     public Collection<MailAddress> match(Mail mail) {
-        // todo ACEU19 step 3
-        throw new NotImplementedException("ACEU19 step 3");
+        return mail.getRecipients()
+            .stream()
+            .filter(recipient -> !isSenderBlackListed(mail.getMaybeSender(), recipient))
+            .collect(Guavate.toImmutableList());
+    }
+
+    private Boolean isSenderBlackListed(MaybeSender maybeSender, MailAddress recipient) {
+        Domain domain = recipient.getDomain();
+        return maybeSender.asOptional()
+            .map(sender -> isBlackListed(domain, sender))
+            .orElse(false);
+    }
+
+    private boolean isBlackListed(Domain domain, MailAddress sender) {
+        return blackList.list(domain)
+            .contains(sender);
     }
 }
