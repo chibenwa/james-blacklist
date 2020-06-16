@@ -11,7 +11,9 @@ This enables the following plugins to be used:
  - `blacklist-mailet` Matchers reading the blacklist
  - `blacklist-webadmin` WebAdmin REST endpoints to administer the blacklist
  
- Finally, `blacklist-integration` demonstrate how to write integration tests on top of a testing memory guice server.
+Finally, `blacklist-integration` demonstrate how to write integration tests on top of a testing memory guice server.
+
+**demo** folder details the all required steps and configuration to deploy the content of this repository in a dockerized memory James server, and details the commands required to play with the extensions.
 
 `blacklist-memory`, `blacklist-smtp`, `blacklist-mailet`, `blacklist-webadmin` can be used as **extension-jars** for the Guice James servers. In order to resolve the BlackList interface to its implementation one needs to register `com.linagora.james.blacklist.memory.MemoryBlacklistModule` as a guice extension module. Once done, the extension routes, matchers & hooks can be used in other configurations. A full configuration example can be found here: https://github.com/chibenwa/james-blacklist/tree/master/blacklist-integration/src/test/resources
 
