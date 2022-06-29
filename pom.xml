@@ -17,6 +17,7 @@
         <module>blacklist-smtp</module>
         <module>blacklist-webadmin</module>
         <module>blacklist-integration</module>
+        <module>blacklist-mailbox</module>
     </modules>
 
     <properties>
