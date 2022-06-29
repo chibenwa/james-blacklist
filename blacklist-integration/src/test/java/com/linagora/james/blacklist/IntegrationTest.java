@@ -79,14 +79,10 @@ class IntegrationTest {
             .configurationFromClasspath()
             .usersRepository(DEFAULT)
             .build())
-        .server(configuration -> GuiceJamesServer.forConfiguration(configuration)
-            .combineWith(MemoryJamesServerMain.IN_MEMORY_SERVER_AGGREGATE_MODULE)
-            .overrideWith(new TestJMAPServerModule())
-            .overrideWith(MemoryJamesServerMain.WEBADMIN_TESTING)
+        .server(configuration -> MemoryJamesServerMain.createServer(configuration)
             .overrideWith(binder -> binder.bind(WebAdminConfiguration.class)
                 .toInstance(WebAdminConfiguration.builder()
                     .enabled()
-                    .corsDisabled()
                     .host("127.0.0.1")
                     .port(new RandomPortSupplier())
                     .additionalRoute(BlackListRoutes.class.getCanonicalName())
@@ -108,11 +104,10 @@ class IntegrationTest {
         messageSender.close();
     }
 
-    @Disabled("Not stable")
     @Test
     void blacklistShouldWork(GuiceJamesServer server) throws Exception {
         with()
-            .put("/backList/" + DOMAIN_TLD + "/" + SENDER)
+            .put("/blacklist/" + DOMAIN_TLD + "/" + SENDER)
             .prettyPeek();
 
         messageSender.connect(LOCALHOST_IP, server.getProbe(SmtpGuiceProbe.class).getSmtpPort())

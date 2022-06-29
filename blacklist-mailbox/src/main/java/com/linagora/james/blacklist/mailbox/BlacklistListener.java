@@ -71,6 +71,7 @@ public class BlacklistListener implements EventListener.GroupEventListener {
             }
         }
     }
+
     // Demonstrate the use of the mailbox API
     private InputStream retrieveMessageContent(MailboxId mailboxId, MessageUid uid, MailboxSession mailboxSession) throws IOException, MailboxException {
         return mailboxManager.getMailbox(mailboxId, mailboxSession)

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<listeners>
+  <listener>
+    <class>ocom.linagora.james.blacklist.mailbox.BlacklistListener</class>
+  </listener>
+</listeners>

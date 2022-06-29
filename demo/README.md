@@ -10,6 +10,7 @@ Then copy:
 blacklist-mailet/target/blacklist-mailet-3.5.0-SNAPSHOT-jar-with-dependencies.jar
 blacklist-webadmin/target/blacklist-webadmin-3.5.0-SNAPSHOT-jar-with-dependencies.jar
 blacklist-memory/target/blacklist-memory-3.5.0-SNAPSHOT-jar-with-dependencies.jar
+blacklist-mailbox/target/blacklist-mailbox-3.5.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 into extensions-jars folder.

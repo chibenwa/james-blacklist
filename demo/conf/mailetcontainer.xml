@@ -122,7 +122,7 @@
             </mailet>
             <mailet match="All" class="ToRepository">
                 <repositoryPath>file://var/mail/relay-denied/</repositoryPath>
-                <notice>Warning: You are sending an e-mail to a remote server. You must be authenticated to perform such an operation</notice>
+                <notice>Warning: You are sending an e-mail to a remote server. You must be authenticated to Sperform such an operation</notice>
             </mailet>
         </processor>
 
