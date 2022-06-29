@@ -29,7 +29,7 @@ import org.apache.james.core.MaybeSender;
 import org.apache.mailet.Mail;
 import org.apache.mailet.base.GenericMatcher;
 
-import com.github.steveash.guavate.Guavate;
+import com.google.common.collect.ImmutableList;
 import com.linagora.james.blacklist.api.PerDomainAddressBlackList;
 
 public class NotInBlackList extends GenericMatcher {
@@ -45,7 +45,7 @@ public class NotInBlackList extends GenericMatcher {
         return mail.getRecipients()
             .stream()
             .filter(recipient -> !isSenderBlackListed(mail.getMaybeSender(), recipient))
-            .collect(Guavate.toImmutableList());
+            .collect(ImmutableList.toImmutableList());
     }
 
     private Boolean isSenderBlackListed(MaybeSender maybeSender, MailAddress recipient) {

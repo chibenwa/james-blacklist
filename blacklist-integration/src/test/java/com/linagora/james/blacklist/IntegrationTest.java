@@ -20,14 +20,15 @@
 package com.linagora.james.blacklist;
 
 import static io.restassured.RestAssured.with;
-import static org.awaitility.Duration.ONE_HUNDRED_MILLISECONDS;
-import static org.awaitility.Duration.ONE_MINUTE;
+import static org.apache.james.data.UsersRepositoryModuleChooser.Implementation.DEFAULT;
+import static org.awaitility.Durations.ONE_HUNDRED_MILLISECONDS;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import org.apache.james.GuiceJamesServer;
 import org.apache.james.JamesServerBuilder;
 import org.apache.james.JamesServerExtension;
+import org.apache.james.MemoryJamesConfiguration;
 import org.apache.james.MemoryJamesServerMain;
 import org.apache.james.mailrepository.api.MailRepositoryUrl;
 import org.apache.james.modules.TestJMAPServerModule;
@@ -40,7 +41,6 @@ import org.apache.james.webadmin.RandomPortSupplier;
 import org.apache.james.webadmin.WebAdminConfiguration;
 import org.apache.james.webadmin.WebAdminUtils;
 import org.awaitility.Awaitility;
-import org.awaitility.Duration;
 import org.awaitility.core.ConditionFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,22 +61,27 @@ class IntegrationTest {
     private static final String USER = "bob@" + DOMAIN_TLD;
     private static final String PASS = "pass";
     private static Duration slowPacedPollInterval = ONE_HUNDRED_MILLISECONDS;
-    private static Duration ONE_MILLISECOND = new Duration(1, TimeUnit.MILLISECONDS);
+    private static Duration ONE_MILLISECOND = Duration.ofMillis(1);
     private static ConditionFactory calmlyAwait = Awaitility.with()
         .pollInterval(slowPacedPollInterval)
         .and()
         .with()
         .pollDelay(ONE_MILLISECOND)
         .await();
-    private static ConditionFactory awaitAtMostOneMinute = calmlyAwait.atMost(ONE_MINUTE);
+    private static ConditionFactory awaitAtMostOneMinute = calmlyAwait.atMost(Duration.ofMinutes(1));
 
     SMTPMessageSender messageSender = new SMTPMessageSender(DOMAIN_TLD);
 
     @RegisterExtension
-    static JamesServerExtension jamesServerExtension = new JamesServerBuilder()
+    static JamesServerExtension jamesServerExtension = new JamesServerBuilder<MemoryJamesConfiguration>(tmpDir ->
+        MemoryJamesConfiguration.builder()
+            .workingDirectory(tmpDir)
+            .configurationFromClasspath()
+            .usersRepository(DEFAULT)
+            .build())
         .server(configuration -> GuiceJamesServer.forConfiguration(configuration)
             .combineWith(MemoryJamesServerMain.IN_MEMORY_SERVER_AGGREGATE_MODULE)
-            .overrideWith(new TestJMAPServerModule(LIMIT_TO_10_MESSAGES))
+            .overrideWith(new TestJMAPServerModule())
             .overrideWith(MemoryJamesServerMain.WEBADMIN_TESTING)
             .overrideWith(binder -> binder.bind(WebAdminConfiguration.class)
                 .toInstance(WebAdminConfiguration.builder()

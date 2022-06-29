@@ -17,7 +17,7 @@ into extensions-jars folder.
 Then launch james:
 
 ```
-docker run -d -p 25:25 -p 143:143 -p 8000:8000 -v $PWD/conf:/root/conf -v $PWD/extensions-jars:/root/extensions-jars --name aceu linagora/james-memory:branch-master
+docker run -d -p 25:25 -p 143:143 -p 8000:8000 -v $PWD/conf:/root/conf -v $PWD/extensions-jars:/root/extensions-jars --name aceu apache/james:memory-3.7.0
 ```
 
 To play with James you need to:

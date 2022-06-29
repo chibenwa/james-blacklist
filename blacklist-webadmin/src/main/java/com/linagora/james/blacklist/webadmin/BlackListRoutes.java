@@ -27,7 +27,7 @@ import org.apache.james.webadmin.Routes;
 import org.apache.james.webadmin.utils.JsonTransformer;
 import org.apache.james.webadmin.utils.Responses;
 
-import com.github.steveash.guavate.Guavate;
+import com.google.common.collect.ImmutableList;
 import com.linagora.james.blacklist.api.PerDomainAddressBlackList;
 
 import spark.Service;
@@ -56,7 +56,7 @@ public class BlackListRoutes implements Routes {
             return blackList.list(domain)
                 .stream()
                 .map(MailAddress::asString)
-                .collect(Guavate.toImmutableList());
+                .collect(ImmutableList.toImmutableList());
         }, jsonTransformer);
 
         service.delete(getBasePath() + "/:domain", (req, res) -> {

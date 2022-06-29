@@ -29,12 +29,12 @@
         </dependency>
         <dependency>
             <groupId>org.apache.james</groupId>
-            <artifactId>james-server-memory-guice</artifactId>
+            <artifactId>james-server-memory-app</artifactId>
             <version>${james.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.james</groupId>
-            <artifactId>james-server-memory-guice</artifactId>
+            <artifactId>james-server-memory-app</artifactId>
             <version>${james.version}</version>
             <scope>test</scope>
             <type>test-jar</type>
@@ -47,7 +47,7 @@
         </dependency>
         <dependency>
             <groupId>${james.groupId}</groupId>
-            <artifactId>james-server-guice-jmap-draft</artifactId>
+            <artifactId>james-server-guice-jmap</artifactId>
             <type>test-jar</type>
             <version>${james.version}</version>
             <scope>test</scope>
@@ -65,6 +65,21 @@
             <version>${james.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>james-server-testing</artifactId>
+            <version>3.7.0</version>
         </dependency>
     </dependencies>
 

@@ -44,8 +44,7 @@ class BlackListRoutesTest {
             .start();
 
         RestAssured.requestSpecification = WebAdminUtils.buildRequestSpecification(webAdminServer)
-            .setBasePath("backList")
-            .log(LogDetail.METHOD)
+            .setBasePath("blacklist")
             .build();
     }
 
